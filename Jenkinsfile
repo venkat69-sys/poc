@@ -8,16 +8,6 @@ pipeline {
             }
         }
 
-        stage('Build Docker Images') {
-            steps {
-                script {
-                    // Use Minikube's Docker daemon
-                    sh 'eval $(minikube docker-env) && docker build -t backend/dockerfile'
-                    sh 'eval $(minikube docker-env) && docker build -t frontend/dockerfile'
-                }
-            }
-        }
-
         stage('Deploy to Kubernetes') {
             steps {
                 script {
@@ -27,6 +17,16 @@ pipeline {
                         kubectl apply -f k8s/frontend-deployment.yaml
                         kubectl apply -f k8s/service.yaml
                     '''
+                }
+            }
+        }
+
+        stage('Build Docker Images') {
+            steps {
+                script {
+                    // Use Minikube's Docker daemon
+                    sh 'eval $(minikube docker-env) && docker build -t backend/dockerfile'
+                    sh 'eval $(minikube docker-env) && docker build -t frontend/dockerfile'
                 }
             }
         }
