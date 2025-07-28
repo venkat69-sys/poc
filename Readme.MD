@@ -216,7 +216,6 @@ curl http://<DEFAULTIP-PUBLIC-IP>:30081    # Frontend
 ## 📎 Links
 
 - 🔗 GitHub Repository: [DevOps-CI-CD-Pipeline](https://github.com/venkat69-sys/poc)
-#- 🔗 LinkedIn Profile: [Tejaswi Pathak](https://www.linkedin.com/in/tejaswi-pathak)
 
 ---
 
