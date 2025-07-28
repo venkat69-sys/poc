@@ -216,11 +216,11 @@ curl http://<DEFAULTIP-PUBLIC-IP>:30081    # Frontend
 ## 📎 Links
 
 - 🔗 GitHub Repository: [DevOps-CI-CD-Pipeline](https://github.com/venkat69-sys/poc)
-- 🔗 LinkedIn Profile: [Tejaswi Pathak](https://www.linkedin.com/in/tejaswi-pathak)
+#- 🔗 LinkedIn Profile: [Tejaswi Pathak](https://www.linkedin.com/in/tejaswi-pathak)
 
 ---
 
 ## 📚 Conclusion
 
-This project is a full-fledged demonstration of how to containerize applications, automate deployments using Jenkins, and orchestrate containers via Kubernetes — all deployed on an AWS EC2 instance. It proves your ability to integrate multiple DevOps tools in a production-like setup.
+This project is a full-fledged demonstration of how to containerize applications, automate deployments using Jenkins, and orchestrate containers via Kubernetes — all deployed on an CENTOS instance. It proves your ability to integrate multiple DevOps tools in a production-like setup.
 
