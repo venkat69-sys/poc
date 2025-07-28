@@ -1,11 +1,6 @@
 pipeline {
     agent any
 
-    environment {
-        IMAGE_BACKEND = "backend:local"
-        IMAGE_FRONTEND = "frontend:local"
-    }
-
     stages {
         stage('Checkout Code') {
             steps {
@@ -17,8 +12,8 @@ pipeline {
             steps {
                 script {
                     // Use Minikube's Docker daemon
-                    sh 'eval $(minikube docker-env) && docker build -t $IMAGE_BACKEND ./backend'
-                    sh 'eval $(minikube docker-env) && docker build -t $IMAGE_FRONTEND ./frontend'
+                    sh 'eval $(minikube docker-env) && docker build -t backend/dockerfile'
+                    sh 'eval $(minikube docker-env) && docker build -t frontend/dockerfile'
                 }
             }
         }
