@@ -2,8 +2,8 @@ pipeline {
     agent any
 
     environment {
-        IMAGE_BACKEND = "devops-backend:local"
-        IMAGE_FRONTEND = "devops-frontend:local"
+        IMAGE_BACKEND = "backend:local"
+        IMAGE_FRONTEND = "frontend:local"
     }
 
     stages {
