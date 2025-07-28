@@ -2,62 +2,47 @@ pipeline {
     agent any
 
     environment {
-        DOCKERHUB_CREDENTIALS = credentials('dockerhub-creds')
+        IMAGE_BACKEND = "devops-backend:local"
+        IMAGE_FRONTEND = "devops-frontend:local"
     }
 
     stages {
-        stage('Checkout Code from GitHub') {
+        stage('Checkout Code') {
             steps {
                 git branch: 'main', url: 'https://github.com/venkat69-sys/poc.git'
             }
         }
 
-        stage('Build Backend Image') {
+        stage('Build Docker Images') {
             steps {
                 script {
-                    docker.build("venkat69-sys/devops-backend:latest", "./backend")
-                }
-            }
-        }
-
-        stage('Build Frontend Image') {
-            steps {
-                script {
-                    docker.build("venkat69-sys/devops-frontend:latest", "./frontend")
-                }
-            }
-        }
-
-        stage('Login to DockerHub') {
-            steps {
-                script {
-                    docker.withRegistry('https://index.docker.io/v1/', 'dockerhub-creds') {
-                        echo 'Logged in to DockerHub'
-                    }
-                }
-            }
-        }
-
-        stage('Push Images') {
-            steps {
-                script {
-                    docker.withRegistry('https://index.docker.io/v1/', 'dockerhub-creds') {
-                        docker.image("venkat69-sys/devops-backend:latest").push()
-                        docker.image("venkat69-sys/devops-frontend:latest").push()
-                    }
+                    // Use Minikube's Docker daemon
+                    sh 'eval $(minikube docker-env) && docker build -t $IMAGE_BACKEND ./backend'
+                    sh 'eval $(minikube docker-env) && docker build -t $IMAGE_FRONTEND ./frontend'
                 }
             }
         }
 
         stage('Deploy to Kubernetes') {
             steps {
-                sh '''
-                    export KUBECONFIG=/var/lib/jenkins/.kube/config
-                    kubectl apply -f k8s/backend-deployment.yaml
-                    kubectl apply -f k8s/frontend-deployment.yaml
-                    kubectl apply -f k8s/service.yaml
-                '''
+                script {
+                    sh '''
+                        export KUBECONFIG=/var/lib/jenkins/.kube/config
+                        kubectl apply -f k8s/backend-deployment.yaml
+                        kubectl apply -f k8s/frontend-deployment.yaml
+                        kubectl apply -f k8s/service.yaml
+                    '''
+                }
             }
+        }
+    }
+
+    post {
+        success {
+            echo 'Deployment completed successfully!'
+        }
+        failure {
+            echo 'Deployment failed.'
         }
     }
 }
