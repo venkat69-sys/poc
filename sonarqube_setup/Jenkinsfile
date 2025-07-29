@@ -1,37 +1,34 @@
 pipeline {
-
     agent any
-        
     stages {
-        
-		stage('Remove SonarQube') {
+        stage('Remove SonarQube') {
             
-			steps {
+	       steps {
 				   
-				sh '''
-				     echo "remove sonarqube"
-                   echo "stop SonarQube"
-                   /opt/sonarqube/bin/linux-x86-64/sonar.sh stop
-                   sudo systemctl stop sonarqube
-                   sudo systemctl disable SonarQube
-                   sudo rm -rf /opt/sonarqube
-                   sudo rm -f /etc/systemd/system/sonarqube.service
-                   echo "delete sonar user"
-                   sudo userdel sonar
-                   sudo groupdel sonar
+		      sh '''
+	            echo "remove sonarqube"
+                echo "stop SonarQube"
+                /opt/sonarqube/bin/linux-x86-64/sonar.sh stop
+                sudo systemctl stop sonarqube
+                sudo systemctl disable SonarQube
+                sudo rm -rf /opt/sonarqube
+                sudo rm -f /etc/systemd/system/sonarqube.service
+                echo "delete sonar user"
+                sudo userdel sonar
+                sudo groupdel sonar
 
-                   echo "drop user"
-                   sudo -u postgres psql
-                   DROP DATABASE sonarqube;
-                   DROP USER sonar;
-                   \q
+                echo "drop user"
+                sudo -u postgres psql
+                DROP DATABASE sonarqube;
+                DROP USER sonar;
+                \q
 
-                   sudo systemctl daemon-reexec
-                   ps aux | grep sonar
-                   sudo lsof -i :9000
-                   '''
+                sudo systemctl daemon-reexec
+                ps aux | grep sonar
+                sudo lsof -i :9000
+                '''
             }	 
-		}
+        }
 			
         stage('Install Sonarqube') {
 			
@@ -82,10 +79,11 @@ pipeline {
                     error "SonarQube Quality Gate failed: ${qualityGate.status}"
 					
                        
-			                }
+			    }
                     
             }
 	    
         }
-        
+	
+    }    
 }
