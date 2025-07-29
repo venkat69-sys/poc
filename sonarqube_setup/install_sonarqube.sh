@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Install Java
-# sudo dnf install -y java-17-openjdk-devel unzip wget
+# sudo yum install -y java-17-openjdk-devel unzip wget
 
 # Create SonarQube user
 sudo useradd -r -s /bin/false sonarqube
