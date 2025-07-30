@@ -1,29 +1,28 @@
 pipeline {
+
     agent any
 
     stages {
-        stage('Checkout Code') {
+        stage('Clone Repo') {
             steps {
-                git branch: 'main', url: 'https://github.com/venkat69-sys/poc.git'
+                git url: 'https://github.com/your/repo.git', branch: 'main'
             }
         }
+        stage('Access Subfolder') {
 
-        stage('Build Docker Images') {
             steps {
-                script {
-                    sh 'eval $(minikube docker-env) && docker build -t backend/dockerfile'
-                    sh 'eval $(minikube docker-env) && docker build -t frontend/dockerfile'
+                dir('sonarqube_setup') {
+                    sh '''
+                    cd poc/sonarqube_setup/
+                    install_sonarqube.sh
+                    sonarqube.propertiess
+                    sonarqube.service
+
+                    '''
+
+
                 }
             }
-        }
-    }
-
-    post {
-        success {
-            echo 'Deployment completed successfully!'
-        }
-        failure {
-            echo 'Deployment failed.'
         }
     }
 }
