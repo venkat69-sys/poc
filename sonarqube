@@ -15,7 +15,6 @@ sudo chown -R sonarqube:sonarqube /opt/sonarqube
 
 # Configure SonarQube
 echo "Configure SonarQube"
-echo "Configure SonarQube"
 mkdir -p /opt/sonarqube/conf/sonar.properties
 echo "sonar.jdbc.username=sonar;sonar.jdbc.password=sonarqube;sonar.jdbc.url=jdbc:postgresql://localhost/sonarqube" >> /opt/sonarqube/conf/sonar.properties
 
