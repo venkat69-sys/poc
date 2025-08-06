@@ -1,27 +1,39 @@
 pipeline {
-
     agent any
-
+    environment {
+        DOCKERHUB_CREDENTIALS = credentials('dockerhub-creds')
+    }
     stages {
-        stage('Clone Repo') {
+        stage('Checkout') {
             steps {
-                git url: 'https://github.com/your/repo.git', branch: 'main'
+                git branch: 'main', url: 'https://github.com/venkat69-sys/poc.git'
             }
         }
-        stage('Access Subfolder') {
-
+        stage('Build Images') {
             steps {
-                dir('sonarqube_setup') {
-                    sh '''
-                    cd poc/sonarqube_setup/
-                    install_sonarqube.sh
-                    sonarqube.propertiess
-                    sonarqube.service
-
-                    '''
-
-
+                script {
+                    docker.build("venkat69-sys/backend", "./backend/")
+                    docker.build("venkat69-sys/frontend", "./frontend/")
                 }
+            }
+        }
+        stage('Push Images') {
+            steps {
+                script {
+                    docker.withRegistry('https://index.docker.io', 'dockerhub-creds') {
+                        docker.image("venkat69-sys/backend").push()
+                        docker.image("venkat69-sys/frontend").push()
+                    }
+                }
+            }
+        }
+        stage('Deploy to Kubernetes') {
+            steps {
+                sh '''
+                kubectl apply -f k8s/backend-deployment.yaml
+                kubectl apply -f k8s/frontend-deployment.yaml
+                kubectl apply -f k8s/service.yaml
+                '''
             }
         }
     }
