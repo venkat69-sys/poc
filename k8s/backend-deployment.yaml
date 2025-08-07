@@ -14,6 +14,6 @@ spec:
     spec:
       containers:
       - name: backend
-        image: venkat69/backend
+        image: 69venkat/backend
         ports:
         - containerPort: 5000
