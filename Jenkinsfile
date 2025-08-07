@@ -32,7 +32,7 @@ pipeline {
                 script {
                     docker.withRegistry('https://index.docker.io', 'dockerhub-creds') {
                         docker.image("69venkat/backend").push()
-                        docker.image("69venkat69/frontend").push()
+                        docker.image("69venkat/frontend").push()
                     }
                 }
             }
