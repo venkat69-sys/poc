@@ -22,8 +22,8 @@ pipeline {
         stage('Build Images') {
             steps {
                 script {
-                    docker.build("venkat69-sys/backend", "./backend/")
-                    docker.build("venkat69-sys/frontend", "./frontend/")
+                    docker.build("venkat69-sys/poc/backend", "./backend/")
+                    docker.build("venkat69-sys/poc/frontend", "./frontend/")
                 }
             }
         }
@@ -31,8 +31,8 @@ pipeline {
             steps {
                 script {
                     docker.withRegistry('https://index.docker.io', 'dockerhub-creds') {
-                        docker.image("venkat69-sys/backend").push()
-                        docker.image("venkat69-sys/frontend").push()
+                        docker.image("69venkat/backend").push()
+                        docker.image("69venkat69/frontend").push()
                     }
                 }
             }
