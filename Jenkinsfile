@@ -2,6 +2,7 @@ pipeline {
     agent any
     environment {
         DOCKERHUB_CREDENTIALS = credentials('dockerhub-creds')
+        kubectl apply --kubeconfig=/var/lib/jenkins/.kube/config
     }
     stages {
         stage('Checkout') {
