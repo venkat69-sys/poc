@@ -2,7 +2,7 @@ pipeline {
     agent any
     environment {
         DOCKERHUB_CREDENTIALS = credentials('dockerhub-creds')
-        KUBECONFIG = '/var/lib/jenkins/.kube/config'
+        KUBECONFIG = '/home/devopsgit/.kube/config'
     }
     stages {
         stage('Checkout') {
@@ -41,9 +41,9 @@ pipeline {
         stage('Deploy to Kubernetes') {
             steps {
                 sh '''
-                kubectl apply --kubeconfig=/var/lib/jenkins/.kube/config -f k8s/backend-deployment.yaml
-                kubectl apply --kubeconfig=/var/lib/jenkins/.kube/config -f k8s/frontend-deployment.yaml
-                kubectl apply --kubeconfig=/var/lib/jenkins/.kube/config -f k8s/service.yaml
+                kubectl apply --kubeconfig=/home/devopsgit/.kube/config -f k8s/backend-deployment.yaml
+                kubectl apply --kubeconfig=/home/devopsgit/.kube/config -f k8s/frontend-deployment.yaml
+                kubectl apply --kubeconfig=/home/devopsgit/.kube/config -f k8s/service.yaml
                 '''
             }
         }
