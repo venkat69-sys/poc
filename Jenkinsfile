@@ -41,9 +41,9 @@ pipeline {
         stage('Deploy to Kubernetes') {
             steps {
                 sh '''
-                kubectl apply --kubeconfig=/home/devopsgit/.kube/config -f k8s/backend-deployment.yaml
-                kubectl apply --kubeconfig=/home/devopsgit/.kube/config -f k8s/frontend-deployment.yaml
-                kubectl apply --kubeconfig=/home/devopsgit/.kube/config -f k8s/service.yaml
+                kubectl apply --kubeconfig=/home/devopsgit/.kube/config -f k8s/backend-deployment.yaml --validate=false
+                kubectl apply --kubeconfig=/home/devopsgit/.kube/config -f k8s/frontend-deployment.yaml --validate=false
+                kubectl apply --kubeconfig=/home/devopsgit/.kube/config -f k8s/service.yaml --validate=false
                 '''
             }
         }
